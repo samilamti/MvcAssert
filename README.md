@@ -30,7 +30,7 @@ VB.NET usage (RedirectToRoute)
 		Public Sub LoggedIn_RedirectsTo_TechnicalError_If_User_Is_Missing()
 			_userServiceMock.Setup(Function(mock) mock.GetUser()).Returns(DirectCast(Nothing, UserModel))
 
-			MvcAssert.RedirectToRoute(_controller.LoggedIn(), Function(technicalError As TeknisktFelController) technicalError.Index())
+			MvcAssert.RedirectToRoute(_controller.LoggedIn(), Function(technicalError As TechnicalErrorController) technicalError.Index())
 		End Sub
 
 VB.NET usage (ModelValueEquals)
