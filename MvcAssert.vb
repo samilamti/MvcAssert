@@ -2,7 +2,6 @@ Imports System.Web.Mvc
 Imports System.Linq.Expressions
 
 Public Module MvcAssert
-
   <System.Diagnostics.DebuggerStepThrough()>
 	Public Sub RedirectToRoute(Of TController As IController, TAction)(actionResult As ActionResult, expression As Expression(Of Func(Of TController, TAction)))
 		Dim redirect = TryCast(actionResult, RedirectToRouteResult)
@@ -28,5 +27,13 @@ Public Module MvcAssert
 		Assert.IsNotNull(model, "Expected a model of type " & GetType(TModel).Name)
 
 		Assert.AreEqual(expectedValue, actualValueGetter(modell))
+	End Sub
+  
+  <DebuggerStepThrough()>
+	Public Sub ModelStateContainsError(ByVal modelStateDictionary As ModelStateDictionary, ByVal expectedError As String)
+		Dim modelErrors = modelStateDictionary.SelectMany(Function(kvp, coll) kvp.Value.Errors)
+		If Not modelErrors.Any(Function(e) e.ErrorMessage = expectedError) Then
+			Throw New AssertFailedException("Expected ModelState to contain error: " + expectedError)
+		End If
 	End Sub
 End Module
