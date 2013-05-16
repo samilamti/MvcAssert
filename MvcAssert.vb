@@ -1,8 +1,9 @@
 Imports System.Web.Mvc
 Imports System.Linq.Expressions
+Imports System.Diagnostics
 
 Public Module MvcAssert
-  <System.Diagnostics.DebuggerStepThrough()>
+	<DebuggerStepThrough()>
 	Public Sub RedirectToRoute(Of TController As IController, TAction)(actionResult As ActionResult, expression As Expression(Of Func(Of TController, TAction)))
 		Dim redirect = TryCast(actionResult, RedirectToRouteResult)
 		Assert.IsNotNull(redirect, "Expected a RedirectToRouteResult")
@@ -18,7 +19,7 @@ Public Module MvcAssert
 		Assert.AreEqual(controllerName, omdirigering.RouteValues("controller"))
 	End Sub
 
-	<System.Diagnostics.DebuggerStepThrough()>
+	<DebuggerStepThrough()>
 	Public Sub ModelValueEquals(Of TModel As Class, TValue)(actionResult As ActionResult, expectedValue As TValue, actualValueGetter As Func(Of TModel, TValue))
 		Dim viewResult = TryCast(actionResult, ViewResult)
 		Assert.IsNotNull(viewResult, "Expected a ViewResult")
@@ -29,7 +30,7 @@ Public Module MvcAssert
 		Assert.AreEqual(expectedValue, actualValueGetter(modell))
 	End Sub
   
-  <DebuggerStepThrough()>
+	<DebuggerStepThrough()>
 	Public Sub ModelStateContainsError(ByVal modelStateDictionary As ModelStateDictionary, ByVal expectedError As String)
 		Dim modelErrors = modelStateDictionary.SelectMany(Function(kvp, coll) kvp.Value.Errors)
 		If Not modelErrors.Any(Function(e) e.ErrorMessage = expectedError) Then
